@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      line-height: 2;
+    }
+    .form{
+      width: 400px;
+      height: 200px;
+      margin: 0px auto;
+    }
+
+    .form-item-label{
+      width:100px;
+      min-height: 10px;
+      text-align: right;
+      float: left;
+    }
+
+    .form-item-input{
+      float: left;
+    }
+
+    .form-item{
+      width: 100% ;
+      height: 50px;
+      line-height: 50px;
+    }
+
+    #submit {
+      width: 100px;
+    }
+</style>
+</head>
+
+<body>
+
+  <div class='form'>
+    <div class="form-item">
+      <div class='form-item-label'><span>用户名：</span></div>
+      <div class='form-item-input'><input id='userName' name='用户名' type="text"></div>
+    </div>
+
+    <div class="form-item">
+      <div class='form-item-label'><span>密码：</span></div>
+      <div class='form-item-input'><input id='password' name='密码' type="text"></div>
+    </div>
+
+    <div class="form-item">
+      <div class='form-item-label'><span>确认密码：</span></div>
+      <div class='form-item-input'><input id='repassword' name='密码确认' type="text"></div>
+    </div>
+
+    <div class="form-item">
+      <div class='form-item-label'><span>邮箱：</span></div>
+      <div class='form-item-input'><input id='mail' name='邮箱' type="text"></div>
+    </div>
+
+    <div class="form-item">
+      <div class='form-item-label'></div>
+      <div class='form-item-input'>
+        <button id='submit'>提交</button>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#submit').bind('click', doSubmit);
+    });
+
+    function doSubmit() {
+      var eleUserName = document.getElementById('userName');
+      if (eleUserName.value === '') {
+        alert('用户名不能为空');
+        return;
+      }
+
+      if (eleUserName.length < 6) {
+        alert('用户名长度不能少于6个字符');
+        return;
+      }
+
+      if (eleUserName.length > 6) {
+        alert('用户名长度不能多于20个字符');
+        return;
+      }
+
+    }
+  </script>
+</body>
+
+</html>
