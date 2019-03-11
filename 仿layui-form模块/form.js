@@ -1,5 +1,10 @@
 $(function() {
-  //自动完成渲染
+  /**
+   * 属性介绍
+   * lay-filter 用于过滤元素（作用类似 class 或 id )
+   * lay-verify 校验规则，多个规则之间用 | 隔开
+   *
+   */
   var ELEM = ".layui-form",
     form = {
       render: function() {}
@@ -86,7 +91,7 @@ var submit = function() {
       }
 
     });
-  
+
     if(!stop) return stop;
   });
   return false;
