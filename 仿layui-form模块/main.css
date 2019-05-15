@@ -12,3 +12,9 @@ input {
   width: 300px;
   height: 30px;
 }
+.layui-form-item {
+  margin: 10px 0;
+}
+button {
+  padding: 5px;
+}
