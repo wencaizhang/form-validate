@@ -39,7 +39,7 @@
       {
         DANGER_CLASS: "layui-form-danger",
         // 当某一规则校验不通过时，是否停止剩下的规则的校验
-        validateFirst: true,
+        validateFirst: false,
         // 预设的规则属性
         rulePropName: "lay-rules",
       },
@@ -97,11 +97,11 @@
               errorText = rule[1];
               isTrue = !rule[0].test(value);
             }
+            isTrue ? othis.addClass(self.options.DANGER_CLASS) : othis.removeClass(self.options.DANGER_CLASS);
             if (isTrue) {
               var handleTips = self.options.handleTips || self.handleTips;
               handleTips(errorText, ele);
               othis.focus();
-              othis.addClass(self.options.DANGER_CLASS);
             }
             if (isTrue && self.options.validateFirst) {
               return validateStatus = false;
