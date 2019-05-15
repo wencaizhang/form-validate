@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./main.css">
   </head>
   <body>
-    <form class="layui-form" novalidate>
+    <form class="layui-form" novalidate onsubmit="return false;">
       <div class="layui-form-item">
         <label class="layui-form-label">输入框</label>
         <div class="layui-input-block">
@@ -15,7 +15,7 @@
             type="text"
             name="title"
             required
-            lay-rules="required|phone|number"
+            lay-rules="required|minLen4|maxLen12"
             placeholder="请输入标题"
             autocomplete="off"
             class="layui-input"
@@ -29,7 +29,7 @@
             type="password"
             name="password"
             required
-            lay-rules="required"
+            lay-rules="required|minLen4|maxLen12"
             placeholder="请输入密码"
             autocomplete="off"
             class="layui-input"
@@ -38,15 +38,39 @@
       </div>
       <div class="layui-form-item">
         <div class="layui-input-block">
-          <button class="layui-btn" lay-submit lay-filter="formDemo">
+          <button type="submit" lay-submit lay-filter="formDemo">
             立即提交
           </button>
-          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
         </div>
       </div>
     </form>
 
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="./form.js"></script>
+    <script src="./jquery.formValidate.js"></script>
+    <script>
+      $(function () {
+        $('.layui-form').formValidate({
+          validateFirst: true,
+          rules: {
+            minLen4: function (v, ele) {
+              if (v.length < 4) {
+                return '最小长度为 4'
+              }
+            },
+            maxLen12: function (v, ele) {
+              if (v.length > 12) {
+                return '最小长度为 12'
+              }
+            }
+          },
+          handleTips: function(text, ele) {
+            // 这里可以调用自己的 提示组件
+            console.log(text);
+            console.log(ele);
+          }
+        })
+
+      })
+    </script>
   </body>
 </html>
