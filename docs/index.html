@@ -5,11 +5,56 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>表单校验-仿layui-form模块</title>
     <link rel="stylesheet" href="./main.css" />
+    <style>
+      .layui-form-danger {
+        border-color: red;
+      }
+    </style>
   </head>
   <body>
-    <form novalidate onsubmit="return false;">
+    <form class="options options-form">
+      <h4>配置选项</h4>
       <div class="item">
-        <label class="label">输入框</label>
+        <span class="title">触发时机：</span>
+        <label for="trigger1">
+          <input id="trigger1" type="radio" name="trigger" value="change" />
+          change
+        </label>
+        <label for="trigger2">
+          <input id="trigger2" type="radio" name="trigger" value="input" />
+          input
+        </label>
+        <label for="trigger3">
+          <input id="trigger3" type="radio" name="trigger" value="submit" />
+          submit
+        </label>
+      </div>
+      <div class="item">
+        <span class="title">validateFirst:</span>
+        <label for="validateFirst1">
+          <input
+            id="validateFirst1"
+            type="radio"
+            name="validateFirst"
+            value="1"
+          />
+          true
+        </label>
+        <label for="validateFirst2">
+          <input
+            id="validateFirst2"
+            type="radio"
+            name="validateFirst"
+            value="0"
+          />
+          false
+        </label>
+      </div>
+    </form>
+
+    <form class="validate-form" novalidate onsubmit="return false;">
+      <div class="item">
+        <label class="label">用户名</label>
         <div>
           <input
             type="text"
@@ -47,9 +92,9 @@
     <script src="./jquery.formValidate.js"></script>
     <script>
       $(function() {
-        var $form = $("form").formValidate({
+        var defaultOptions = {
           validateFirst: true,
-          trigger: 'input',
+          // trigger: "input",
           rules: {
             minLen4: function(v, ele) {
               if (v.length < 4) {
@@ -67,9 +112,28 @@
             console.log(text);
             console.log(ele);
           }
+        };
+        $(".options input").on("input", function(e) {
+          var formResult = {};
+          $(".options")
+            .serializeArray()
+            .forEach(function(item) {
+              if (item.name === 'validateFirst') {
+                formResult[item.name] = Boolean(Number(item.value));
+              } else {
+                formResult[item.name] = item.value;
+              }
+            });
+          var options = $.extend({}, defaultOptions, formResult);
+          initFormValidate(options);
         });
-
-        console.log($form)
+        initFormValidate();
+        function initFormValidate(options) {
+          var html = $(".validate-form").html();
+          $(".validate-form").remove();
+          $('body').append('<div class="validate-form">' + html + '</div>')
+          $(".validate-form").formValidate(options || defaultOptions);
+        }
       });
     </script>
   </body>
