@@ -30,24 +30,22 @@
     ],
     identity: [/(^\d{15}$)|(^\d{17}(x|X|\d)$)/, "请输入正确的身份证号"]
   };
-
+  var defaultOptions = {
+    trigger: "submit", // 表单验证的时机，submit 或者 change
+    DANGER_CLASS: "layui-form-danger",
+    // 当某一规则校验不通过时，是否停止剩下的规则的校验
+    validateFirst: false,
+    // 预设的规则属性
+    rulePropName: "lay-rules"
+  };
   function Plugin(ele, options) {
     // 此处 this 是 Plugin 的实例对象
     var self = this;
+    self.options = $.extend(defaultOptions, options, {
+      rules: $.extend(defaultRules, options.rules || {})
+    });
     self.ele = $(ele);
-    self.options = $.extend(
-      {
-        DANGER_CLASS: "layui-form-danger",
-        // 当某一规则校验不通过时，是否停止剩下的规则的校验
-        validateFirst: false,
-        // 预设的规则属性
-        rulePropName: "lay-rules",
-      },
-      options,
-      {
-        rules: $.extend(defaultRules, options.rules || {})
-      }
-    );
+    self.validateEle = self.ele.find("*[" + self.options.rulePropName + "]"); //获取需要校验的元素
     self.init();
   }
 
@@ -55,31 +53,38 @@
     //提示信息定位，传入参数（提示对象，提示信息内容）
     init: function(configObj) {
       var self = this;
-
-      //表单提交事件
-      self.ele
-        .on("submit", function(e) {
-          self.submit();
-          e.preventDefault();
-          return false;
-        })
-        .on("click", "*[lay-submit]", function(e) {
-          self.submit();
+      var trigger = self.options.trigger;
+      if (trigger === "submit") {
+        //表单提交事件
+        self.ele
+          .on("submit", function(e) {
+            self.validate();
+            e.preventDefault();
+            return false;
+          })
+          .on("click", "*[lay-submit]", function(e) {
+            self.validate();
+            e.preventDefault();
+            return false;
+          });
+      } else {
+        self.validateEle.on(trigger, function(e) {
+          self.validate();
           e.preventDefault();
           return false;
         });
+      }
     },
 
-    submit: function() {
+    validate: function() {
       var self = this;
-      var validateEle = self.ele.find("*[" + self.options.rulePropName + "]"); //获取需要校验的元素
 
       // 遍历需要校验的元素
-      validateEle.each(function(index, ele) {
+      self.validateEle.each(function(index, ele) {
         var othis = $(this);
         var ruleList = othis.attr(self.options.rulePropName).split("|");
         var value = othis.val();
-        var validateStatus = true;
+        var validatePass = true;
 
         // 遍历该元素需要校验的规则
         $.each(ruleList, function(index, thisRule) {
@@ -97,20 +102,23 @@
               errorText = rule[1];
               isTrue = !rule[0].test(value);
             }
-            isTrue ? othis.addClass(self.options.DANGER_CLASS) : othis.removeClass(self.options.DANGER_CLASS);
+            isTrue
+              ? othis.addClass(self.options.DANGER_CLASS)
+              : othis.removeClass(self.options.DANGER_CLASS);
             if (isTrue) {
               var handleTips = self.options.handleTips || self.handleTips;
               handleTips(errorText, ele);
               othis.focus();
             }
             if (isTrue && self.options.validateFirst) {
-              return validateStatus = false;
+              self.ele.validatePass = validatePass = false;
+              return validatePass;
             }
           }
         });
 
         // 跳出 jq 的 each 循环
-        if (!validateStatus) return validateStatus;
+        if (!validatePass) return validatePass;
       });
       // return false;
     },

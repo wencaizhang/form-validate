@@ -1,13 +1,17 @@
 # jquery 表单验证插件
 
-第一步，引入 js 文件
+## 如何使用
+
+#### 第一步，引入 js 文件
 
 ```html
 <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
 <script src="./jquery.formValidate.js"></script>
 ```
 
-第二步，表单中指定规则
+#### 第二步，表单中指定规则
+
+只会对拥有 `lay-rules` 属性的表单项进行验证。
 
 ```html
 <form>
@@ -15,7 +19,7 @@
 </form>
 ```
 
-第三步，调用插件
+#### 第三步，调用插件
 
 ```js
 $("form").formValidate({
@@ -27,15 +31,23 @@ $("form").formValidate({
 
 可配置选项：
 
----
-
 | 参数          | 说明                                             | 类型     | 默认值              |
 | ------------- | ------------------------------------------------ | -------- | ------------------- |
+| trigger       | [触发校验的时机](#触发校验的时机)                | String   | submit              |
 | validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验 | Boolean  | false               |
 | rules         | 自定义验证规则，详情见[校验规则](#校验规则)      | Object   | null                |
 | handleTips    | 规则不通过时的回调函数                           | function |
 | DANGER_CLASS  | 校验未通过的表单项添加的类名                     | String   | `layui-form-danger` |
 | rulePropName  | 预设的规则属性                                   | String   | `lay-rules`         |
+
+### 触发校验的时机
+
+触发时机有以下几个选项：
+
++ submit：点击提交按钮
++ change：单复选框的改变，input/textarea 失去焦点都会触发，但是 input/textarea 的值发生变化不会触发
++ input: 当表单的值发生变化时
++ 以及其他表单事件
 
 ### 校验规则
 

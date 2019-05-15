@@ -47,8 +47,9 @@
     <script src="./jquery.formValidate.js"></script>
     <script>
       $(function() {
-        $("form").formValidate({
+        var $form = $("form").formValidate({
           validateFirst: true,
+          trigger: 'input',
           rules: {
             minLen4: function(v, ele) {
               if (v.length < 4) {
@@ -57,7 +58,7 @@
             },
             maxLen12: function(v, ele) {
               if (v.length > 12) {
-                return "最小长度为 12";
+                return "最大长度为 12";
               }
             }
           },
@@ -67,6 +68,8 @@
             console.log(ele);
           }
         });
+
+        console.log($form)
       });
     </script>
   </body>
