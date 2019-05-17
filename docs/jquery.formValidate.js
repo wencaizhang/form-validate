@@ -122,8 +122,8 @@
       });
       // return false;
     },
-    handleTips: function(text, ele) {
-      console.log(text);
+    handleTips: function(msg, ele) {
+      console.log(msg);
       console.log(ele);
     }
   };
