@@ -31,14 +31,14 @@ $("form").formValidate({
 
 可配置选项：
 
-| 参数          | 说明                                             | 类型     | 默认值              |
-| ------------- | ------------------------------------------------ | -------- | ------------------- |
-| trigger       | [触发校验的时机](#触发校验的时机)                | String   | submit              |
-| validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验 | Boolean  | false               |
-| rules         | 自定义验证规则，详情见[校验规则](#校验规则)      | Object   | null                |
-| handleTips    | 规则不通过时的[回调函数](#回调函数)，可用于自定义提示         | function(msg, dom) |
-| DANGER_CLASS  | 校验未通过的表单项添加的类名                     | String   | `layui-form-danger` |
-| rulePropName  | 预设的规则属性                                   | String   | `lay-rules`         |
+| 参数          | 说明                                                     | 类型               | 默认值              |
+| ------------- | -------------------------------------------------------- | ------------------ | ------------------- |
+| trigger       | [触发校验的时机](#触发校验的时机)                        | String             | submit              |
+| validateFirst | 当某一规则校验不通过时，是否停止剩下的规则的校验         | Boolean            | false               |
+| rules         | 自定义验证规则，详情见[校验规则](#校验规则)              | Object             | null                |
+| handleTips    | 规则不通过时的[回调函数](#回调函数)，可用于自定义提示    | function(msg, dom) |
+| DANGER_CLASS  | 校验未通过的表单项添加的类名，方便设置不通过时的高亮样式 | String             | `layui-form-danger` |
+| rulePropName  | 预设的规则属性，用于指定校验规则的属性                   | String             | `lay-rules`         |
 
 ### 触发校验的时机
 
@@ -51,8 +51,10 @@ $("form").formValidate({
 
 ### 回调函数
 
+规则不通过时会触发此函数，函数接收两个参数：rule 中指定的提示信息和当前未通过校验的 dom 元素。利用此函数可以很方便的自定义校验提示方式。
+
 ```js
-function handleTips (msg, dom) {
+function handleTips(msg, dom) {
   console.log(msg);
   console.log(ele);
 }
