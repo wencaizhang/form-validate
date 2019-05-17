@@ -60,7 +60,7 @@
             type="text"
             name="title"
             required
-            lay-rules="required|minLen4|maxLen12"
+            lay-rules="required|noSpace|minLen4|maxLen12"
             placeholder="请输入标题"
             autocomplete="off"
           />
@@ -96,6 +96,7 @@
           validateFirst: true,
           // trigger: "input",
           rules: {
+            noSpace: [ /\s/ ,'不允许出现空格'],
             minLen4: function(v, ele) {
               if (v.length < 4) {
                 return "最小长度为 4";

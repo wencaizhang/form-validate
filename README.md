@@ -73,3 +73,18 @@ $("form").formValidate({
 
 - 数组：数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
 - 函数：函数接收 value 和 dom 两个参数，value 表示当前表单项的值，dom 表示当前表单项 dom 对象
+
+```js
+$("form").formValidate({
+  rules: {
+    // 正则型校验规则
+    noSpace: [ /\s/ ,'不允许出现空格'],
+    // 函数型校验规则
+    minLen4: function(v, ele) {
+      if (v.length < 4) {
+        return "最小长度为 4";
+      }
+    },
+  }
+});
+```
